@@ -1,7 +1,5 @@
 package is.hi.hbv202g.assignment8;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 /**
