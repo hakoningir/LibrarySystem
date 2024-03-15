@@ -18,13 +18,15 @@ public class Lending {
     public Book getBook() {
         return book;
     }
-    public void setBook(Book book) {
+    public void setBook(Book book) throws UserOrBookDoesNotExistException {
         this.book = book;
+        throw new UserOrBookDoesNotExistException("Book "+book+" not found");
     }
     public User getUser() {
         return user;
     }
-    public void setUser(User user) {
+    public void setUser(User user) throws UserOrBookDoesNotExistException{
         this.user = user;
+        throw new UserOrBookDoesNotExistException("User "+user+" not found");
     }
 }

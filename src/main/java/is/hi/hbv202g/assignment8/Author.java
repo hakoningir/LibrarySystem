@@ -9,7 +9,8 @@ public class Author {
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public void setName(String name) throws EmptyAuthorListException {
         this.name = name;
+        throw new EmptyAuthorListException(name + " is not a valid author");
     }
 }
