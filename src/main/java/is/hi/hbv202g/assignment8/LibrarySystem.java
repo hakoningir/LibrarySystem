@@ -15,12 +15,13 @@ public class LibrarySystem {
         List<Book> books = List.of(new Book(title, authors));
         Book book = new Book(title, authorName);
         books.add(book);
-        throw new UserOrBookDoesNotExistException("Book "+book+" not found");
+        throw new UserOrBookDoesNotExistException("Book "+book+" not found" + books.isEmpty());
     }
     public void addBookWithTitleAndAuthorList(String title, List<Author> authors) throws EmptyAuthorListException {
         List<Book> books = List.of(new Book(title, authors));
         Book book = new Book(title, authors);
         books.add(book);
+        throw new EmptyAuthorListException("No authors found" + authors.isEmpty());
     }
     public void addStudentUser(String name, boolean feePaid) {
         List<Student> students = List.of(new Student(name, feePaid));
@@ -45,8 +46,6 @@ public class LibrarySystem {
         return;
     }
     public void returnBook(User user, Book book) throws EmptyAuthorListException {
-        if(book.getAuthors().isEmpty()) {
-            throw new EmptyAuthorListException("No authors found");
-        }
+        return;
     }
 }
