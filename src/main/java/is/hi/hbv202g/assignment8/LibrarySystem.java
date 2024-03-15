@@ -10,14 +10,14 @@ public class LibrarySystem {
         List<Student> students = new ArrayList<>();
         List<FacultyMember> facultyMembers = new ArrayList<>();
     }
-    public void addBookWithTitleAndNameOfSingleAuthor(String title, String authorName) throws UserOrBookDoesNotExistException {
+    public void addBookWithTitleAndNameOfSingleAuthor(String title, String authorName) throws UserOrBookDoesNotExistException, EmptyAuthorListException {
         List<Author> authors = List.of(new Author(authorName));
         List<Book> books = List.of(new Book(title, authors));
         Book book = new Book(title, authorName);
         books.add(book);
         throw new UserOrBookDoesNotExistException("Book "+book+" not found");
     }
-    public void addBookWithTitleAndAuthorList(String title, List<Author> authors) {
+    public void addBookWithTitleAndAuthorList(String title, List<Author> authors) throws EmptyAuthorListException {
         List<Book> books = List.of(new Book(title, authors));
         Book book = new Book(title, authors);
         books.add(book);
