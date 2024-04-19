@@ -1,17 +1,21 @@
 package is.hi.hbv202g.assignment8;
 
-public class Student {
+public class Student extends User{
     Boolean feePaid;
-    public Student(String name, boolean feePaid) {
+    public Student(String name, Boolean feePaid) throws UserOrBookDoesNotExistException {
+        super(name);
         this.feePaid = feePaid;
     }
+
     public boolean isFeePaid() {
-        if(feePaid == true) {
-            return true;
-        }
-        return false;
+        return feePaid;
     }
-    public void setFeePaid(boolean feePaid) {
+    
+    public void setFeePaid(Boolean feePaid) {
         this.feePaid = feePaid;
+    }
+
+    public void payFee(){
+        feePaid = true;
     }
 }

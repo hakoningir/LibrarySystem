@@ -8,7 +8,7 @@ import org.junit.Test;
 public class MainTest
 {
     @Test
-    public void shouldBePossibleToInstantiateLibrarySystem() throws UserOrBookDoesNotExistException
+    public void shouldBePossibleToInstantiateLibrarySystem() throws UserOrBookDoesNotExistException, EmptyAuthorListException
     {
         new LibrarySystem();
     }

@@ -1,16 +1,23 @@
 package is.hi.hbv202g.assignment8;
 
-public class User {
-    String name;
+public abstract class User {
+    private String name;
     public User(String name) throws UserOrBookDoesNotExistException {
+        if (name == null || name.trim().isEmpty()) {
+            throw new UserOrBookDoesNotExistException("Invalid user name provided.");
+        }
         this.name = name;
-        throw new UserOrBookDoesNotExistException(name + " is not a valid user");
     }
+    
     public String getName() {
         return name;
     }
+
     public void setName(String name) throws UserOrBookDoesNotExistException {
+        if (name == null || name.trim().isEmpty()) {
+            throw new UserOrBookDoesNotExistException("Invalid user name provided.");
+        }
         this.name = name;
-        throw new UserOrBookDoesNotExistException(name + " is not a valid user");
     }
+    
 }

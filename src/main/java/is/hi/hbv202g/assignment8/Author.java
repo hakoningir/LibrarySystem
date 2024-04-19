@@ -1,16 +1,17 @@
 package is.hi.hbv202g.assignment8;
 
 public class Author {
-    String name;
-    public Author(String name) throws EmptyAuthorListException {
+
+    private String name;
+    public Author(String name) {
         this.name = name;
-        throw new EmptyAuthorListException(name + " is not a valid author");
     }
-    public String getName() {
+
+    public String getAuthorName() {
         return name;
     }
-    public void setName(String name) throws EmptyAuthorListException {
+
+    public void setAuthorName(String name) {
         this.name = name;
-        throw new EmptyAuthorListException(name + " is not a valid author");
     }
 }

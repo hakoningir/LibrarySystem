@@ -5,47 +5,110 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibrarySystem {
-    public LibrarySystem() {        
-        List<Book> books = new ArrayList<>();
-        List<Student> students = new ArrayList<>();
-        List<FacultyMember> facultyMembers = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
+    private List<FacultyMember> facultyMembers = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
+    private List<Lent> lentBooks = new ArrayList<>();
+
+    public LibrarySystem() throws EmptyAuthorListException, UserOrBookDoesNotExistException {
+        initializeAuthorsAndBooks();
+        initializeFacultyMembers();
+        initializeStudents();
     }
-    public void addBookWithTitleAndNameOfSingleAuthor(String title, String authorName) throws UserOrBookDoesNotExistException, EmptyAuthorListException {
-        List<Author> authors = List.of(new Author(authorName));
-        List<Book> books = List.of(new Book(title, authors));
-        Book book = new Book(title, authorName);
-        books.add(book);
-        throw new UserOrBookDoesNotExistException("Book "+book+" not found" + books.isEmpty());
+
+    private void initializeAuthorsAndBooks() throws EmptyAuthorListException {
+        Author jk = new Author("J.K. Rowling");
+        Author jrr = new Author("J.R.R. Tolkien");
+        Author doyle = new Author("Arthur Conan Doyle");
+        Author dickens = new Author("Charles Dickens");
+
+        List<Author> hpAuthors = List.of(jk);
+        List<Author> lotrAuthors = List.of(jrr);
+        List<Author> doyleAuthors = List.of(doyle);
+        List<Author> dickensAuthors = List.of(dickens);
+
+        books.addAll(List.of(
+            new Book("Harry Potter and the Philosopher's Stone", hpAuthors, false),
+            new Book("Harry Potter and the Chamber of Secrets", hpAuthors, false),
+            new Book("Lord of the Rings: The Fellowship of the Ring", lotrAuthors, false),
+            new Book("Lord of the Rings: The Two Towers", lotrAuthors, false),
+            new Book("Sherlock Holmes: A Study in Scarlet", doyleAuthors, false),
+            new Book("Sherlock Holmes: The Sign of four", doyleAuthors, true),
+            new Book("Sherlock Holmes: The Hound of the Baskervilles", doyleAuthors, true),
+            new Book("A tale of two cities", dickensAuthors, false)
+        ));
     }
-    public void addBookWithTitleAndAuthorList(String title, List<Author> authors) throws EmptyAuthorListException {
-        List<Book> books = List.of(new Book(title, authors));
-        Book book = new Book(title, authors);
-        books.add(book);
-        throw new EmptyAuthorListException("No authors found" + authors.isEmpty());
+
+    private void initializeFacultyMembers() throws UserOrBookDoesNotExistException {
+        facultyMembers.addAll(List.of(
+            new FacultyMember("Hilmar", "dep.1"),
+            new FacultyMember("Sigríður", "dep.1"),
+            new FacultyMember("Hilmar", "dep.1"),
+            new FacultyMember("Sigríður", "dep.1"),
+            new FacultyMember("Pálína", "dep.1"),
+            new FacultyMember("Reynir", "dep.2"),
+            new FacultyMember("Arnar", "dep.2"),
+            new FacultyMember("Hjalti", "dep.3"),
+            new FacultyMember("Heiðrún", "dep.3"),
+            new FacultyMember("Sóley", "dep.3")
+        ));
     }
-    public void addStudentUser(String name, boolean feePaid) {
-        List<Student> students = List.of(new Student(name, feePaid));
-        Student studentUser = new Student(name, feePaid);
-        students.add(studentUser);
+
+    private void initializeStudents() throws UserOrBookDoesNotExistException {
+        students.addAll(List.of(
+            new Student("Árni", true),
+            new Student("Björn", false),
+            new Student("Kolfinna", true),
+            new Student("Sigrún", false),
+            new Student("Atli", false),
+            new Student("Bjarki", true),
+            new Student("Rebekka", false)
+        ));
     }
-    public void addFacultyMemberUser(String name, String department) {
-        List<FacultyMember> facultyMembers = List.of(new FacultyMember(name, department));
-        FacultyMember facultyMemberUser = new FacultyMember(name, department);
-        facultyMembers.add(facultyMemberUser);
+
+    public List<FacultyMember> getFacultyMembers() {
+        return facultyMembers;
     }
-    public Book findBookByTitle(String title) {
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public List<Book> getAvailableBooks() {
+        List<Book> availableBooks = new ArrayList<>();
+        for (Book book : books) {
+            if (!book.isLent()) {
+                availableBooks.add(book);
+            }
+        }
+        return availableBooks;
+    }
+
+    public List<Lent> getLentBooks() {
+        return lentBooks;
+    }
+
+    public void loanBook(Book book, Student student, FacultyMember facultyMember) {
+        if (student != null && facultyMember != null && books.contains(book)) {
+            lentBooks.add(new Lent(book.getTitle(), book.getAuthors(), student.getName(), LocalDate.now(), LocalDate.now().plusDays(14)));
+            student.setFeePaid(false);
+            book.setLent(true);
+        }
+    }
+
+    public void returnBook(FacultyMember facultyMember, Book book) {
+        if (facultyMember != null && books.contains(book)) {
+            lentBooks.removeIf(lent -> lent.getBookTitle().equals(book.getTitle()));
+            book.setLent(false);
+        }
+    }
+
+    public Book getBookByTitle(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equals(title)) {
+                return book;
+            }
+        }
         return null;
-    }
-    public User findUserByName(String name) {
-        return null;
-    }
-    public void borrowBook(User user, Book book) {
-        return;
-    }
-    public void extendLending(FacultyMember facultyMember, Book book, LocalDate newDueDate) {
-        return;
-    }
-    public void returnBook(User user, Book book) throws EmptyAuthorListException {
-        return;
     }
 }
